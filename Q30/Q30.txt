@@ -1,0 +1,57 @@
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<sstream>
+#include<map>
+#include<vector>
+#include<algorithm>
+using namespace std;
+struct cmp {
+	bool operator() (const pair<char, int>& p1, const pair<char, int>& p2) {
+		return p1.second > p2.second;
+	}
+};
+int main() {
+	string str;
+	ifstream fin;
+	fin.open("C:\\Users\\NJ\\Desktop\\1\\Q30\\input.txt");
+	stringstream buf;
+	buf << fin.rdbuf();
+	str = buf.str();
+	fin.close();
+	int len = str.length();
+	map<char, int> m;
+	for (int i = 0; i < 26; i++) {
+		m.insert(make_pair((char)('a'+i),0));
+	}
+	char l[100000];
+	int durex = len / 100000+1;
+	for (int co = 0; co < durex; co++) {
+		for (int i = 0; i < 100000 &&i+co*100000<len; i++) {
+			l[i] = str[i + co * 100000];
+		}
+		for (int i = 0; i < 26; i++) {
+			char c = (char)('a' + i);
+			int d = 100000;
+			if (co == durex-1) {
+				d = len - (durex - 1) * 100000;
+			}
+			int c1 = count(l, l + d, c);
+			int c2 = count(l, l + d, c + 'A' - 'a');
+			m[c] = m[c] + c1 + c2;
+		}
+
+
+	}
+	vector<pair<char, int>> vp(m.begin(), m.end());
+	sort(vp.begin(), vp.end(), cmp());
+	cout << '[' << vp[0].second;
+	for (int i = 1; i < (int)vp.size(); i++) {
+		cout << ","<<vp[i].second;
+	}
+	cout << "]" << endl;
+	system("pause"); 
+	return 0;
+}
+//[123341,123016,122996,122933,122921,122906,122828,122802,122729,122693,122655,122618,122573,122553,122424,122405,122387,122334,122265,122225,122199,122192,122156,122064,121968,121894]
+//5446563

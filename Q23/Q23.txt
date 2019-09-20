@@ -1,0 +1,55 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int getPos(char *l, int len) {
+	for (int i = 0; i < len-1; i++) {
+		if (*(l + i) > *(l + i + 1)) {
+			return i;
+		}
+	}
+	return -1;
+}
+int main() {
+	
+	int n;
+	cin >> n;
+
+	if (n<=1) {
+		cout <<n << endl;
+		system("pause");
+		return 0;
+	}
+	string m;
+	int k;
+	char* l;
+	m = to_string(n);
+	k = m.length();
+	l = new char[strlen(m.c_str()) + 1];
+	strcpy(l, m.c_str());
+	int pos = getPos(l, k);
+	if (pos == -1) {
+		cout << n<<endl;
+		system("pause");
+	}
+	char min = *(l + pos)-1;
+	//cout << min<<endl;
+	(*(l + pos))--;
+	for (int i = pos+1; i < k; i++) {
+		*(l + i) = '9';
+	}
+	for (int i = 0; i < pos; i++) {
+		if (*(l + i) > min) {
+			(*(l + i))--;
+			(*(l + i + 1))++;
+		}
+	}
+	if (*l == '0') {
+		cout << l + 1 << endl;
+		system("pause");
+		return 0;
+	}
+	cout << l<<endl;
+	system("pause");
+
+	
+}

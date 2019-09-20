@@ -1,0 +1,66 @@
+#include<iostream>
+#include<string>
+using namespace std;
+char* l;
+char* result;
+int getLengthOdd(int position, int max_length) {
+	int res = 1;
+	char* left = l + position - 1;
+	char* right = l + position + 1;
+	for (int i = 0; i <= position && i + position < max_length; i++) {
+		if (*left == *right) {
+			res = res + 2;
+			left--;
+			right++;
+		}
+		else
+			break;
+	}
+	return res;
+}
+int getLengthEven(int position, int max_length) {
+	int res = 0;
+	char* left = l + position;
+	char* right = l + position + 1;
+	for (int i = 0; i <= position&&i + position + 1 < max_length; i++) {
+		if (*left == *right) {
+			res = res + 2;
+			left--;
+			right++;
+		}
+		else
+			break;
+	}
+	//cout << res << endl;
+	return res;
+
+}
+int main() {
+	string str;
+	cin >> str;
+	if (str == "") {
+		cout << "" << endl;
+		return 0;
+	}
+	int len = str.length();
+	l = new char[1500];
+	strcpy(l, str.c_str());
+	int currentLength = 0;
+	result=new char[1500];
+	for (int i = 0; i < len; i++) {
+		int a = getLengthOdd(i, len);
+		if (a > currentLength) {
+			currentLength = a;
+			strncpy(result,l+i-a/2,a);
+			*(result + a) = '\0';
+		}
+		int b = getLengthEven(i, len);
+		if (b > currentLength) {
+			currentLength = b;
+			strncpy(result, l + i - b / 2 + 1, b);
+			*(result + b) = '\0';
+		}
+	}
+	cout << result<<endl;
+	system("pause");
+}

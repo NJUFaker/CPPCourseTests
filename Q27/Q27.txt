@@ -1,0 +1,80 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<map>
+#include<algorithm>
+using namespace std;
+typedef pair<int, int> P;
+struct CMP {
+	bool operator()(const P& a, const P& b) {
+		return a.first > b.first;
+	}
+};
+int main() {
+	map<int, int> m;
+	char chars[1000];
+	cin.getline(chars, 1000);
+	vector<string> strings;
+	strings.resize(100);
+	char *ptr = strtok(chars, " + ");
+	int count = 0;
+	while (ptr != NULL) {
+		strings[count] = ptr;
+		count++;
+		ptr = strtok(NULL, " + ");
+	}
+	strings.resize(count);
+	for (int i = 0; i < count; i++) {
+		int xpos = (int)strings[i].find("x");
+		int num1 = 1;
+		if (xpos != 0) {
+			num1 = atoi(strings[i].substr(0, xpos).c_str());
+		}
+		int num2 = atoi(strings[i].substr(xpos + 2, strings[i].length() - 1).c_str());
+		map<int, int>::iterator it = m.find(num2);
+		if (it == m.end()) {
+			m.insert(make_pair(num2, num1));
+		}
+		else {
+			m[num2] = m[num2] + num1;
+		}
+	}
+	strings.resize(100);
+	cin.getline(chars, 1000);
+	ptr = strtok(chars, " + ");
+	count = 0;
+	while (ptr != NULL) {
+		strings[count] = ptr;
+		count++;
+		ptr = strtok(NULL, " + ");
+	}
+	strings.resize(count);
+	for (int i = 0; i < count; i++) {
+		int xpos = (int)strings[i].find("x");
+		int num1 = 1;
+		if (xpos != 0) {
+			num1 = atoi(strings[i].substr(0, xpos).c_str());
+		}
+		int num2 = atoi(strings[i].substr(xpos + 2, strings[i].length() - 1).c_str());
+		map<int, int>::iterator it = m.find(num2);
+		if (it == m.end()) {
+			m.insert(make_pair(num2, num1));
+		}
+		else {
+			m[num2] = m[num2] + num1;
+		}
+	}
+	vector<P> vp(m.begin(), m.end());
+	sort(vp.begin(), vp.end(), CMP());
+	int f = 0;
+	while (vp[f].second == 0) {
+		f++;
+	}
+	cout << vp[f].second<< "x^" << vp[f].first;
+	for (int i = f+1; i < vp.size(); i++) {
+		if(vp[i].second!=0)
+			cout << " + " << vp[i].second << "x^" << vp[i].first;
+	}
+	cout << endl;
+	system("pause");
+}
