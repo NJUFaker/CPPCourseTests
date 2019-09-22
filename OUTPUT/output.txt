@@ -1,0 +1,19 @@
+string str1 = "C:\\Users\\NJ\\Desktop\\1\\";
+	string str2 = ".txt";
+	int count = 0;
+	while (true) {
+		fstream _file;
+		_file.open(str1+to_string(count)+str2);
+		if (!_file)
+		{
+		     cout <<  "没有被创建!" << endl;
+			 ofstream outFile;
+			 outFile.open(str1 + to_string(count) + str2);
+			 outFile << str<<endl;
+			 outFile.close();
+			 return 0;
+		}
+		else {
+			count++;
+		}
+	}

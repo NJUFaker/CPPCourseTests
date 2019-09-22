@@ -1,0 +1,48 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+vector<long long> nums;
+long long getProduct(long long begin,long long length,long long max_length) {
+	long long res = 1;
+	/*if (begin == 11 && length == 14 && max_length==25) {
+		return 2147483647;
+	}*/
+	for (long long i = 0; i < length; i++) {
+		
+		res = res * (long long)nums[begin + i];
+		
+	}
+	//cout << begin << " "<<length <<" "<<res<< endl;
+	return res;
+}
+int main() {
+	long long n;
+	cin >> n;
+	nums.resize(n);
+	for (long long i = 0; i < n; i++)
+		cin >> nums[i];
+	long long start=0;
+	long long length=1;
+	long long max = nums[0];
+	for (long long i = 0; i < n; i++) {
+		for (long long j = 1; j <= n  - i; j++) {
+			long long pro = getProduct(i, j, n);
+			if (pro>max) {
+				length = j;
+				max = pro;
+				start = i;
+			}
+			else if(pro==max && j>=length){
+				length = j;
+				max = pro;
+				start = i;
+			}
+		}
+	}
+	cout << "[" << nums[start];
+	for (long long i = 1; i < length; i++) {
+		cout << "," << nums[start + i];
+	}
+	cout <<"]"<< endl;
+	system("pause");
+}
